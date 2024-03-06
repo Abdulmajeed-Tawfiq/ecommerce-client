@@ -12,7 +12,8 @@ function AllProducts() {
   const [selectedSubCats, setSelectedSubCats] = useState<number[]>([]);
   const { data } = useFetch(`sub-categories`);
 
-  const handleChange = (e) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (e: any) => {
     const value = e.target.value;
     console.log(value);
 
@@ -31,7 +32,7 @@ function AllProducts() {
       <div className={styles.left}>
         <div className={styles.filterItem}>
           <h2>Products Categories</h2>
-          {data?.map((item) => (
+          {data?.map((item: { id: string; attributes: { title: string } }) => (
             <div className={styles.inputItem} key={item.id}>
               <input
                 type="checkbox"

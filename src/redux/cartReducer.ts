@@ -3,6 +3,10 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface Product {
   id: number;
+  title: string;
+  desc: string;
+  img: string;
+  price: number;
   quantity: number;
 }
 
@@ -20,7 +24,14 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (
       state,
-      action: PayloadAction<{ id: number; quantity: number }>
+      action: PayloadAction<{
+        id: number;
+        quantity: number;
+        title: string;
+        desc: string;
+        img: string;
+        price: number;
+      }>
     ) => {
       const item = state.products.find((item) => item.id === action.payload.id);
 
@@ -45,7 +56,3 @@ export const cartSlice = createSlice({
 export const { addToCart, removeItem, resetCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
-// Redux Toolkit allows us to write "mutating" logic in reducers. It
-// doesn't actually mutate the state because it uses the Immer library,
-// which detects changes to a "draft state" and produces a brand new
-// immutable state based off those changes

@@ -4,9 +4,10 @@ import { removeItem, resetCart } from "../../redux/cartReducer";
 import { makeRequest } from "../../makeRequest";
 import { loadStripe } from "@stripe/stripe-js";
 import styles from "./cart.module.css";
+import { RootState } from "../../redux/store";
 
 function Cart() {
-  const products = useSelector((state) => state.cart.products);
+  const products = useSelector((state: RootState) => state.cart.products);
   const dispatch = useDispatch();
 
   const totalPrice = () => {
@@ -24,9 +25,12 @@ function Cart() {
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
-      const responce = await makeRequest.post("/orders", { products });
+      if (!stripe) {
+        throw new Error("Stripe object is null");
+      }
+      const response = await makeRequest.post("/orders", { products });
       await stripe.redirectToCheckout({
-        sessionId: responce.data.stripeSession.id,
+        sessionId: response.data.stripeSession.id,
       });
     } catch (error) {
       console.log(error);
